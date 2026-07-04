@@ -1,0 +1,83 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import InteractiveGrid from '../components/ui/InteractiveGrid.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title = "Portfolio",
+  description = "Portfolio website of Mahdi Imantaka Sutejo - Tech-Sophisticated portfolio showcasing projects and skills.",
+  ogImage = "/images/og/default.png",
+} = Astro.props;
+
+const pageTitle = `${title} | Mahdi Imantaka Sutejo`;
+---
+
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <!-- Basic SEO -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Font Preloads to avoid layout shifts -->
+    <link rel="preload" href="/fonts/geist-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/geist-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Analytics (Umami / Plausible) -->
+    {import.meta.env.PUBLIC_UMAMI_SCRIPT_URL && import.meta.env.PUBLIC_UMAMI_WEBSITE_ID && (
+      <script 
+        async 
+        src={import.meta.env.PUBLIC_UMAMI_SCRIPT_URL} 
+        data-website-id={import.meta.env.PUBLIC_UMAMI_WEBSITE_ID}
+      ></script>
+    )}
+    <!-- Global Mouse Position Script -->
+    <script>
+      document.addEventListener('mousemove', (e) => {
+        document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+      });
+    </script>
+  </head>
+  <body class="bg-zinc-950 text-zinc-100 min-h-screen antialiased selection:bg-teal-500 selection:text-zinc-950 flex flex-col pt-16 relative overflow-x-hidden">
+    <!-- Interactive Background Grid and Spotlight Glow -->
+    <div class="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      <!-- Ambient cursor spotlight -->
+      <div class="absolute inset-0 bg-[radial-gradient(600px_circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(20,184,166,0.06),transparent_80%)]"></div>
+      
+      <!-- Dynamic interactive grid floor (fixed behind all pages) -->
+      <InteractiveGrid />
+    </div>
+
+    <Navbar />
+    <main class="flex-grow w-full relative z-10">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

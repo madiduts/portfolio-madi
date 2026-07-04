@@ -1,0 +1,163 @@
+---
+---
+
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+  <canvas id="interactive-grid-canvas" class="w-full h-full opacity-60"></canvas>
+</div>
+
+<script>
+  const canvas = document.getElementById('interactive-grid-canvas') as HTMLCanvasElement;
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      let width = 0;
+      let height = 0;
+
+      const resize = () => {
+        const dpr = window.devicePixelRatio || 1;
+        width = canvas.width = canvas.clientWidth * dpr;
+        height = canvas.height = canvas.clientHeight * dpr;
+        ctx.scale(dpr, dpr);
+        width = canvas.clientWidth;
+        height = canvas.clientHeight;
+      };
+
+      window.addEventListener('resize', resize);
+      resize();
+
+      // 3D Grid Parameters (Slightly larger for wider coverage)
+      const gridWidth = 1600; 
+      const gridDepth = 900;  
+      const cols = 28;
+      const rows = 22;
+      
+      const focalLength = 320;
+      const cameraY = 150;    // Camera looks DOWN at the floor
+      const cameraZ = -80;    // Camera offset behind the front line
+      
+      let mouseX = width / 2;
+      let mouseY = height / 2;
+      let targetMouseX = mouseX;
+      let targetMouseY = mouseY;
+
+      // Track mouse globally across the viewport
+      window.addEventListener('mousemove', (e) => {
+        targetMouseX = e.clientX;
+        targetMouseY = e.clientY;
+      });
+
+      let time = 0;
+
+      const animate = () => {
+        ctx.clearRect(0, 0, width, height);
+
+        // Smooth mouse damping (0.05 for organic, slow drag effect)
+        mouseX += (targetMouseX - mouseX) * 0.05;
+        mouseY += (targetMouseY - mouseY) * 0.05;
+
+        time += 0.012; // Slower time step for smooth grid waving
+
+        const points2D: { x: number; y: number; opacity: number }[][] = [];
+        const centerX = width / 2;
+        const centerY = height * 0.60; // Horizon positioned in the lower-middle area
+
+        for (let r = 0; r < rows; r++) {
+          points2D[r] = [];
+          for (let c = 0; c < cols; c++) {
+            const x3d = (c / (cols - 1) - 0.5) * gridWidth;
+            const y3d = (r / (rows - 1)) * gridDepth + 120;
+            
+            // Gentle base wave
+            const distFromOrigin = Math.sqrt(x3d * x3d + y3d * y3d);
+            let z3d = Math.sin(distFromOrigin * 0.005 - time * 1.2) * 8;
+
+            // Project point temporarily to check distance to mouse
+            const tempScale = focalLength / (y3d + cameraZ);
+            const tempX = centerX + x3d * tempScale;
+            const tempY = centerY + (cameraY + z3d) * tempScale;
+            
+            const dx = tempX - mouseX;
+            const dy = tempY - mouseY;
+            const mouseDist = Math.sqrt(dx * dx + dy * dy);
+            
+            // Smooth mouse ripple distortion (lower frequency to prevent jittering)
+            const activeRange = 250;
+            if (mouseDist < activeRange) {
+              const influence = (1 - mouseDist / activeRange);
+              // Organic swell wave instead of rapid oscillation
+              z3d += Math.sin(mouseDist * 0.018 - time * 2.5) * (influence * 35);
+            }
+
+            // Final 3D Projection
+            const scale = focalLength / (y3d + cameraZ);
+            const screenX = centerX + x3d * scale;
+            const screenY = centerY + (cameraY + z3d) * scale;
+            
+            // Screen-space boundaries fading (completely hides left, right, top and bottom edges)
+            const fadeX = Math.min(1, Math.max(0, screenX / 160), Math.max(0, (width - screenX) / 160));
+            const fadeY = Math.min(1, Math.max(0, (screenY - 60) / 100), Math.max(0, (height - screenY) / 120));
+            const opacity = fadeX * fadeY * 0.55;
+
+            points2D[r][c] = { x: screenX, y: screenY, opacity };
+          }
+        }
+
+        // Draw grid lines
+        ctx.lineWidth = 1;
+
+        // 1. Draw Columns (Depth/Perspective lines)
+        for (let c = 0; c < cols; c++) {
+          for (let r = 0; r < rows - 1; r++) {
+            const p1 = points2D[r][c];
+            const p2 = points2D[r + 1][c];
+            
+            const avgOpacity = (p1.opacity + p2.opacity) / 2;
+            if (avgOpacity <= 0) continue;
+
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            
+            ctx.strokeStyle = `rgba(20, 184, 166, ${avgOpacity * 0.20})`; 
+            ctx.stroke();
+          }
+        }
+
+        // 2. Draw Rows (Horizontal lines)
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols - 1; c++) {
+            const p1 = points2D[r][c];
+            const p2 = points2D[r][c + 1];
+            
+            const avgOpacity = (p1.opacity + p2.opacity) / 2;
+            if (avgOpacity <= 0) continue;
+
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            
+            ctx.strokeStyle = `rgba(20, 184, 166, ${avgOpacity * 0.15})`; 
+            ctx.stroke();
+          }
+        }
+
+        // 3. Draw Tech Nodes
+        for (let r = 0; r < rows; r += 2) {
+          for (let c = 0; c < cols; c += 2) {
+            const p = points2D[r][c];
+            if (p.opacity <= 0.15) continue;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(45, 212, 191, ${p.opacity * 0.35})`; 
+            ctx.fill();
+          }
+        }
+
+        requestAnimationFrame(animate);
+      };
+
+      animate();
+    }
+  }
+</script>

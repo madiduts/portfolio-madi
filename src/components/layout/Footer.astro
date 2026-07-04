@@ -1,0 +1,47 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-zinc-900 bg-zinc-950 py-12 px-6 md:px-12 mt-auto">
+  <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <!-- Copyright & Credits -->
+    <div class="flex flex-col items-center md:items-start gap-1">
+      <p class="text-xs font-mono text-zinc-500">
+        © {currentYear} Mahdi Imantaka Sutejo. All rights reserved.
+      </p>
+      <div class="flex items-center gap-1.5 text-[10px] font-mono text-zinc-650">
+        <span>Astro v7.0</span>
+        <span>•</span>
+        <span>Tailwind v4.0</span>
+        <span>•</span>
+        <span class="text-teal-500/60">SYS: ONLINE</span>
+      </div>
+    </div>
+
+    <!-- Social Links -->
+    <div class="flex items-center gap-6 text-xs font-mono text-zinc-400">
+      <a 
+        href="https://github.com/madiduts" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="hover:text-teal-400 transition-colors duration-200"
+      >
+        [GitHub]
+      </a>
+      <a 
+        href="https://linkedin.com/in/mahdi-imantaka-sutejo" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="hover:text-teal-400 transition-colors duration-200"
+      >
+        [LinkedIn]
+      </a>
+      <a 
+        href="mailto:mahdi.imantaka@example.com" 
+        class="hover:text-teal-400 transition-colors duration-200"
+      >
+        [Email]
+      </a>
+    </div>
+  </div>
+</footer>
