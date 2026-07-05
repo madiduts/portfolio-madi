@@ -16,6 +16,7 @@ const projects = defineCollection({
       live: z.string().url().optional().or(z.literal('')),
       github: z.string().url().optional().or(z.literal('')),
       case_study: z.string().url().optional().or(z.literal('')),
+      canva: z.string().url().optional().or(z.literal('')),
     }).optional(),
   }),
 });

@@ -1,6 +1,6 @@
 ---
 title: "Sentinel Analytics Pipeline"
-description: "Pipeline ingesti data real-time berkinerja tinggi untuk memproses jutaan sensor IoT per detik menggunakan Kafka dan BigQuery."
+description: "A high-performance real-time data ingestion pipeline processing millions of IoT sensor events per second using Kafka and BigQuery."
 tags: ["Go", "Apache Kafka", "BigQuery", "Docker"]
 year: 2024
 status: "completed"
@@ -9,15 +9,16 @@ order: 1
 cover: "/images/projects/sentinel-analytics.webp"
 links:
   github: "https://github.com/madiduts/sentinel-analytics"
+  canva: "https://canva.com"
 ---
 
-### Ringkasan Proyek
-Sentinel Analytics adalah sistem pemrosesan aliran data (*stream processing*) terdistribusi yang dirancang untuk menangani data sensor IoT dalam skala besar. Sistem ini mengonsumsi log mentah, memvalidasi struktur data, melakukan agregasi waktu nyata, dan memasukkannya ke dalam gudang data untuk analisis instan.
+### Project Overview
+Sentinel Analytics is a distributed stream processing system designed to handle large-scale IoT sensor data. It consumes raw logs, validates data structures, performs real-time aggregation, and inserts them into a data warehouse for instant analysis.
 
-### Fitur Utama
-- **Ingesti Skala Besar**: Mampu memproses hingga 50.000 pesan per detik dengan latensi di bawah 100ms.
-- **Skema Dinamis**: Validasi otomatis tipe data sensor untuk mencegah polusi data di tingkat penyimpanan.
-- **Fault Tolerance**: Mekanisme antrean surat mati (*dead-letter queue*) otomatis untuk pesan yang gagal didekode.
+### Key Features
+- **Large-Scale Ingestion**: Capable of processing up to 50,000 messages per second with sub-100ms latency.
+- **Dynamic Schema**: Automatic validation of sensor data types to prevent data pollution at the storage layer.
+- **Fault Tolerance**: Automatic dead-letter queue mechanism for messages that fail to decode.
 
-### Arsitektur Teknis
-Sistem ini menggunakan bahasa **Go** karena efisiensi memori dan model konkurensi goroutine-nya yang tangguh. Aliran data diarahkan melalui cluster **Apache Kafka** yang dipartisi untuk beban kerja terdistribusi, kemudian diproses sebelum dimasukkan ke dalam **Google BigQuery** untuk kebutuhan visualisasi tingkat lanjut.
+### Technical Architecture
+The system uses the **Go** language for memory efficiency and its robust goroutine concurrency model. Data streams are routed through a partitioned **Apache Kafka** cluster for distributed workloads, then processed before being inserted into **Google BigQuery** for advanced visualization needs.

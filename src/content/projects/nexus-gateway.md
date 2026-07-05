@@ -1,6 +1,6 @@
 ---
 title: "Nexus Edge Gateway"
-description: "API Gateway dengan latensi ultra-rendah, dilengkapi dengan rate-limiting terdistribusi dan caching berbasis Redis."
+description: "An ultra-low latency API Gateway featuring distributed rate-limiting and Redis-based caching."
 tags: ["Rust", "Redis", "gRPC", "Kubernetes"]
 year: 2023
 status: "completed"
@@ -9,15 +9,16 @@ order: 2
 cover: "/images/projects/nexus-gateway.webp"
 links:
   github: "https://github.com/madiduts/nexus-gateway"
+  canva: "https://canva.com"
 ---
 
-### Ringkasan Proyek
-Nexus Edge Gateway dibangun untuk memecahkan masalah kelebihan beban (*overhead*) pada perutean API internal di lingkungan mikroservis. Dengan menggunakan Rust, gateway ini meminimalkan penggunaan memori dan memberikan *throughput* maksimum tanpa garbage collection.
+### Project Overview
+Nexus Edge Gateway was built to solve the overhead problem in internal API routing within microservice environments. By using Rust, this gateway minimizes memory consumption and delivers maximum throughput without garbage collection.
 
-### Fitur Utama
-- **Routing Cepat**: Waktu perutean rata-rata di bawah 2 milidetik menggunakan perute statis teroptimasi.
-- **Rate-Limiting Terdistribusi**: Menggunakan algoritma *token bucket* terdesentralisasi yang didukung oleh Redis cluster.
-- **Edge Security**: Validasi token JWT secara asinkron langsung di gerbang masuk utama sebelum mendistribusikan request ke downstream.
+### Key Features
+- **Fast Routing**: Average routing time below 2 milliseconds using an optimized static router.
+- **Distributed Rate-Limiting**: Uses a decentralized token bucket algorithm powered by a Redis cluster.
+- **Edge Security**: Asynchronous JWT token validation directly at the main entrance gate before distributing requests downstream.
 
-### Arsitektur Teknis
-Membangun router berbasis **Rust** menggunakan pustaka tokio untuk konkurensi non-blocking. Protokol komunikasi internal didukung oleh **gRPC** untuk efisiensi transfer data biner dan definisi tipe skema yang ketat antara mikroservis.
+### Technical Architecture
+Built a **Rust**-based router using the tokio library for non-blocking concurrency. The internal communication protocol is powered by **gRPC** for efficient binary data transfer and strict schema type definitions between microservices.

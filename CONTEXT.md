@@ -1,130 +1,130 @@
 # AI Context: Portfolio Website — Mahdi Imantaka Sutejo
 
-> Dokumen ini adalah **sumber kebenaran tunggal** untuk AI yang bekerja di proyek ini.
-> Baca seluruh dokumen ini sebelum menulis satu baris kode pun.
+> This document is the **single source of truth** for AI working on this project.
+> Read this entire document before writing any line of code.
 
 ---
 
-## 1. Identitas Proyek
+## 1. Project Identity
 
-| Atribut | Detail |
+| Attribute | Detail |
 |---|---|
-| **Nama Proyek** | Single-Page Portfolio Website V4 |
-| **Pemilik** | Mahdi Imantaka Sutejo |
+| **Project Name** | Single-Page Portfolio Website V4 |
+| **Owner** | Mahdi Imantaka Sutejo |
 | **Status** | Agile / Iterative Development |
-| **Tujuan Utama** | Etalase profesional yang menampilkan rekam jejak dengan estetika tech-sophisticated |
+| **Main Goal** | Professional showcase displaying track record with a tech-sophisticated aesthetic |
 
 ---
 
-## 2. Tech Stack — TIDAK BOLEH DIGANTI
+## 2. Tech Stack — DO NOT CHANGE
 
 ```
 Framework   : Astro (latest stable)
 Styling     : Tailwind CSS v3+
-Konten      : Markdown + Astro Content Collections
-Bahasa      : TypeScript (strict mode)
-Deployment  : CI/CD otomatis (Vercel / Netlify — TBD)
+Content     : Markdown + Astro Content Collections
+Language    : TypeScript (strict mode)
+Deployment  : Automated CI/CD (Vercel / Netlify — TBD)
 ```
 
-**Larangan keras:**
-- ❌ Jangan pakai React/Vue/Svelte sebagai framework utama
-- ❌ Jangan pakai CSS framework selain Tailwind
-- ❌ Jangan pakai CMS eksternal (Contentful, Sanity, dll.)
-- ❌ Jangan hardcode konten di dalam komponen `.astro`
+**Strict Prohibitions:**
+- ❌ Do not use React/Vue/Svelte as the main framework
+- ❌ Do not use any CSS framework other than Tailwind
+- ❌ Do not use external CMS (Contentful, Sanity, etc.)
+- ❌ Do not hardcode content inside `.astro` components
 
 ---
 
-## 3. Arsitektur & Struktur Folder
+## 3. Architecture & Folder Structure
 
 ```
 portfolio-mahdi/
 ├── public/
 │   ├── fonts/                    # Self-hosted font files (.woff2)
 │   ├── images/
-│   │   ├── projects/             # Thumbnail & screenshot per proyek
+│   │   ├── projects/             # Thumbnail & screenshot per project
 │   │   └── og/                   # Open Graph preview images
 │   └── favicon.svg
 │
 ├── src/
 │   ├── components/
-│   │   ├── ui/                   # Atom components: Button, Badge, Tag, dll.
+│   │   ├── ui/                   # Atom components: Button, Badge, Tag, etc.
 │   │   ├── sections/             # Section-level: Hero, Projects, About, Contact
-│   │   └── layout/               # Navbar, Footer, dll.
+│   │   └── layout/               # Navbar, Footer, etc.
 │   │
 │   ├── content/
-│   │   └── projects/             # Satu file .md per proyek (source of truth)
+│   │   └── projects/             # One .md file per project (source of truth)
 │   │
 │   ├── layouts/
-│   │   └── BaseLayout.astro      # Layout utama dengan SEO + OG meta
+│   │   └── BaseLayout.astro      # Main layout with SEO + OG meta
 │   │
 │   ├── pages/
-│   │   └── index.astro           # Single page — semua section di sini
+│   │   └── index.astro           # Single page — all sections here
 │   │
 │   ├── styles/
 │   │   └── global.css            # Tailwind directives + custom CSS vars
 │   │
 │   └── lib/
-│       └── utils.ts              # Helper functions (slug, date format, dll.)
+│       └── utils.ts              # Helper functions (slug, date format, etc.)
 │
 ├── astro.config.mjs
 ├── tailwind.config.mjs
 ├── tsconfig.json
-├── CONTEXT.md                    # ← FILE INI
+├── CONTEXT.md                    # ← THIS FILE
 └── package.json
 ```
 
 ---
 
-## 4. Design System & Tema Visual
+## 4. Design System & Visual Theme
 
-**Tema:** Tech-Sophisticated — bukan developer blog biasa, bukan dark hacker aesthetic klise.
-Target feel: *precision tool*, bukan dekorasi.
+**Theme:** Tech-Sophisticated — not an ordinary developer blog, not a cliché dark hacker aesthetic.
+Target feel: *precision tool*, not decoration.
 
-### Prinsip Visual (sudah ditetapkan, tidak perlu ditawarkan alternatif)
+### Visual Principles (established, no need to offer alternatives)
 - **Dark-first** color scheme
-- **Tipografi**: satu display face yang berkarakter + satu body face yang bersih
-- **Spacing**: generous whitespace — jangan cramped
-- **Animasi**: purposeful, bukan dekoratif — scroll-triggered reveal, subtle hover states
-- **Warna**: detail akan ditentukan iteratif, tapi palet harus berdasar pada dark background dengan 1-2 accent color yang spesifik
+- **Typography**: one characterful display face + one clean body face
+- **Spacing**: generous whitespace — don't cram
+- **Animation**: purposeful, not decorative — scroll-triggered reveal, subtle hover states
+- **Color**: details will be determined iteratively, but palette must be based on a dark background with 1-2 specific accent colors
 
-### Yang Belum Dikunci (akan didiskusikan per iterasi)
-- Hex values spesifik untuk palet warna
-- Pilihan font family spesifik
-- Jumlah dan urutan section
-- Konten aktual (bio, project descriptions, copy)
+### Unlocked Items (to be discussed per iteration)
+- Specific hex values for the color palette
+- Specific font family choices
+- Number and order of sections
+- Actual content (bio, project descriptions, copy)
 
 ---
 
-## 5. Content Collections — Skema Proyek
+## 5. Content Collections — Project Schema
 
-Setiap proyek disimpan sebagai file `.md` di `src/content/projects/`.
+Each project is stored as a `.md` file in `src/content/projects/`.
 
-### Frontmatter Schema (wajib diikuti)
+### Frontmatter Schema (mandatory to follow)
 
 ```yaml
 ---
-title: "Nama Proyek"
-description: "Deskripsi singkat satu kalimat (max 160 karakter)"
-tags: ["tag1", "tag2"]          # Teknologi / kategori
-year: 2024                       # Tahun pengerjaan
+title: "Project Name"
+description: "Short description, one sentence (max 160 characters)"
+tags: ["tag1", "tag2"]          # Technology / category
+year: 2024                       # Year of completion
 status: "completed"              # completed | ongoing | archived
-featured: true                   # Muncul di section utama?
-order: 1                         # Urutan tampil (ascending)
-cover: "/images/projects/nama-proyek.webp"
+featured: true                   # Appear in main section?
+order: 1                         # Display order (ascending)
+cover: "/images/projects/project-name.webp"
 links:
   live: "https://..."            # Optional
   github: "https://..."          # Optional
   case_study: "https://..."      # Optional
 ---
 
-Isi konten detail proyek di sini (dipakai jika ada halaman detail).
+Detailed project content details go here (used if there is a details page).
 ```
 
 ---
 
 ## 6. SEO & Metadata Requirements
 
-**Setiap halaman WAJIB punya:**
+**Every page MUST have:**
 
 ```html
 <!-- Basic SEO -->
@@ -145,32 +145,32 @@ Isi konten detail proyek di sini (dipakai jika ada halaman detail).
 
 ## 7. Performance Requirements
 
-- **Lighthouse Score Target:** ≥ 95 semua kategori
-- Gambar wajib pakai format `.webp`, dengan `width` dan `height` eksplisit
-- Font wajib di-self-host (tidak boleh Google Fonts CDN langsung)
-- Tidak boleh ada render-blocking resource
-- Gunakan Astro's built-in image optimization (`<Image />` dari `astro:assets`)
+- **Lighthouse Score Target:** ≥ 95 in all categories
+- Images must use `.webp` format, with explicit `width` and `height`
+- Fonts must be self-hosted (no direct Google Fonts CDN)
+- No render-blocking resources allowed
+- Use Astro's built-in image optimization (`<Image />` from `astro:assets`)
 
 ---
 
 ## 8. Analytics
 
-- Platform: **Umami** atau **Plausible** (privacy-first, lightweight)
-- Embed via script tag di `BaseLayout.astro`
-- Tidak perlu cookie banner (karena tidak tracking PII)
+- Platform: **Umami** or **Plausible** (privacy-first, lightweight)
+- Embed via script tag in `BaseLayout.astro`
+- No cookie banner required (no PII tracking)
 
 ---
 
-## 9. Cara Kerja Iterasi (Instruksi untuk AI)
+## 9. Iteration Workflow (Instructions for AI)
 
-1. **Jangan buat keputusan desain visual secara unilateral.** Kalau ada yang belum dikunci (warna, font, copy), tanya dulu atau kasih opsi.
-2. **Selalu kerja dari content collections.** Jangan hardcode data proyek di komponen.
-3. **Komponen baru = diskusi dulu.** Sebelum bikin komponen baru, konfirmasi tujuan dan letaknya.
-4. **Konsistensi naming:** komponen di `PascalCase.astro`, utility di `camelCase.ts`, section ID di `kebab-case`.
-5. **Satu PR = satu concern.** Jangan campur perubahan desain dengan perubahan konten.
+1. **Do not make visual design decisions unilaterally.** If something is not locked down (colors, fonts, copy), ask first or provide options.
+2. **Always work from content collections.** Do not hardcode project data in components.
+3. **New component = discuss first.** Before creating a new component, confirm its purpose and location.
+4. **Naming consistency:** components in `PascalCase.astro`, utilities in `camelCase.ts`, section IDs in `kebab-case`.
+5. **One PR = one concern.** Do not mix design changes with content updates.
 
 ---
 
-## 10. Kalimat Pembuka untuk AI di Setiap Sesi Baru
+## 10. Opening Sentence for AI at Every New Session
 
-> "Ini proyek portfolio Mahdi. Baca `CONTEXT.md` dulu. Stack-nya Astro + Tailwind. Konten dikelola via Markdown Content Collections. Kita kerja iteratif — tanya dulu sebelum buat keputusan yang belum dikunci di dokumen ini."
+> "This is Mahdi's portfolio project. Read `CONTEXT.md` first. The stack is Astro + Tailwind. Content is managed via Markdown Content Collections. We work iteratively — ask before making decisions that are not locked down in this document."
